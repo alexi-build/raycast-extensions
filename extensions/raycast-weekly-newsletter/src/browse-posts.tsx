@@ -1,15 +1,11 @@
 import { Action, ActionPanel, Detail, Icon, Keyboard, List } from "@raycast/api";
-import { showFailureToast, useCachedPromise } from "@raycast/utils";
-import { clearCache, fetchPost, fetchPosts, getPostUrl } from "./api/substack";
+import { showFailureToast, usePromise } from "@raycast/utils";
+import { fetchPost, fetchPosts, getPostUrl } from "./api/substack";
 import type { SubstackPost } from "./types/post";
 import { htmlToMarkdown } from "./utils/html-to-markdown";
 
 export default function Command() {
-  const {
-    data: posts,
-    isLoading,
-    revalidate,
-  } = useCachedPromise(fetchPosts, [], {
+  const { data: posts, isLoading } = usePromise(fetchPosts, [], {
     onError: (error) => {
       showFailureToast(error, { title: "Failed to fetch posts" });
     },
@@ -18,13 +14,13 @@ export default function Command() {
   return (
     <List isLoading={isLoading} searchBarPlaceholder="Search posts...">
       {posts?.map((post) => (
-        <PostListItem key={post.id} post={post} onRefresh={revalidate} />
+        <PostListItem key={post.id} post={post} />
       ))}
     </List>
   );
 }
 
-function PostListItem({ post, onRefresh }: { post: SubstackPost; onRefresh: () => void }) {
+function PostListItem({ post }: { post: SubstackPost }) {
   const date = new Date(post.post_date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
@@ -70,17 +66,6 @@ function PostListItem({ post, onRefresh }: { post: SubstackPost; onRefresh: () =
               shortcut={{ modifiers: ["cmd", "shift"], key: "s" }}
             />
           </ActionPanel.Section>
-          <ActionPanel.Section>
-            <Action
-              icon={Icon.ArrowClockwise}
-              title="Refresh Posts"
-              shortcut={Keyboard.Shortcut.Common.Refresh}
-              onAction={() => {
-                clearCache();
-                onRefresh();
-              }}
-            />
-          </ActionPanel.Section>
         </ActionPanel>
       }
     />
@@ -88,7 +73,7 @@ function PostListItem({ post, onRefresh }: { post: SubstackPost; onRefresh: () =
 }
 
 function PostDetail({ slug }: { slug: string }) {
-  const { data: post, isLoading } = useCachedPromise(fetchPost, [slug], {
+  const { data: post, isLoading } = usePromise(fetchPost, [slug], {
     onError: (error) => {
       showFailureToast(error, { title: "Failed to fetch post" });
     },
