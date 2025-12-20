@@ -86,6 +86,9 @@ export async function scanForSonyTV(onProgress?: (progress: number) => void): Pr
     }
 
     if (found) {
+      if (onProgress) {
+        onProgress(100);
+      }
       return found;
     }
   }

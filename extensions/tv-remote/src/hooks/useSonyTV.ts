@@ -83,10 +83,6 @@ export function useSonyTV() {
     }
   }, [scanNetwork]);
 
-  // If scanNetwork fails silently (returns null), we need to handle "No TV Found" toast if we want to preserve original behavior.
-  // But wait, the original useSonyTV showed "No Sony TV found" is scanning finished without result.
-  // I'll add that check in the scan callback above.
-
   return {
     scan,
     isScanning: isNetworkScanning || isApplying,
