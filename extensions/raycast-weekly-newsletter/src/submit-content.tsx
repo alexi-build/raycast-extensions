@@ -60,7 +60,7 @@ export default function Command() {
     >
       <Form.Description
         title="Submit Content"
-        text="Submit your content to be highlighted in the Raycast Weekly newsletter, or feel free to share your ideas or feedback for the newsletter!"
+        text="Submit your content to be featured in the Raycast Weekly newsletter, or feel free to share your ideas or feedback for the newsletter!"
       />
       <Form.TextField title="Name" placeholder="Your name" {...itemProps.name} />
       <Form.TextField title="Email" placeholder="your@email.com" {...itemProps.email} />
