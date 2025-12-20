@@ -71,7 +71,7 @@ export function useSonyTV() {
         toast.title = `Found ${result.info.model}`;
         toast.message = `${targetSettings.label} Applied`;
       } else {
-        toast.style = Toast.Style.Success; // Still found TV, just couldn't apply
+        toast.style = Toast.Style.Failure; // Still found TV, just couldn't apply
         toast.message = "Could not apply settings";
       }
 
