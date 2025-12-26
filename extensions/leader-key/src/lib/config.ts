@@ -1,7 +1,7 @@
 import { getPreferenceValues } from "@raycast/api";
 import { existsSync, readFileSync } from "fs";
 import { homedir } from "os";
-import type { LeaderKeyConfig, Preferences } from "../types";
+import type { LeaderKeyConfig } from "../types";
 
 const DEFAULT_CONFIG_PATH = `${homedir()}/Library/Application Support/Leader Key/config.json`;
 

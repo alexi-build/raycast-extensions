@@ -9,10 +9,6 @@ export interface LeaderKeyAction {
 
 export type LeaderKeyConfig = LeaderKeyAction;
 
-export interface Preferences {
-  leaderKeyConfigPath?: string;
-}
-
 export interface ShortcutItem {
   alias: string;
   value: string;
