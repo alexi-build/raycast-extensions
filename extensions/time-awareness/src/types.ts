@@ -6,8 +6,3 @@ export interface ActiveState {
   isIdle: boolean;
   shouldNotify: boolean;
 }
-
-export interface Preferences {
-  activeInterval: string;
-  idleThreshold: string;
-}

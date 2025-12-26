@@ -1,6 +1,5 @@
 import { getPreferenceValues } from "@raycast/api";
 import { DEFAULTS } from "../constants";
-import type { Preferences } from "../types";
 
 export interface ParsedPreferences {
   activeIntervalSeconds: number;

@@ -23,7 +23,7 @@ export async function processActiveState(): Promise<ActiveState> {
   const now = Date.now();
   const timeSinceLastCheck = Math.floor((now - state.lastCheckTime) / 1000); // Convert milliseconds to seconds
 
-  const activeTimeToAdd = Math.max(0, timeSinceLastCheck - Math.floor(currentIdleSeconds));
+  const activeTimeToAdd = timeSinceLastCheck;
   const previousMilestones = Math.floor(state.accumulatedActiveSeconds / activeIntervalSeconds);
 
   state.accumulatedActiveSeconds += activeTimeToAdd;
