@@ -9,12 +9,28 @@ const DEFAULT_STATE: Omit<ActiveState, "lastCheckTime"> = {
   shouldNotify: false,
 };
 
+function isValidActiveState(obj: unknown): obj is ActiveState {
+  if (typeof obj !== "object" || obj === null) return false;
+  const state = obj as Record<string, unknown>;
+  return (
+    typeof state.accumulatedActiveSeconds === "number" &&
+    typeof state.lastCheckTime === "number" &&
+    typeof state.sessionCount === "number" &&
+    typeof state.isIdle === "boolean" &&
+    typeof state.shouldNotify === "boolean"
+  );
+}
+
 export async function getActiveState(): Promise<ActiveState> {
   const stored = await LocalStorage.getItem<string>(STORAGE_KEYS.ACTIVE_STATE);
   if (!stored) return { ...DEFAULT_STATE, lastCheckTime: Date.now() };
 
   try {
-    return JSON.parse(stored);
+    const parsed = JSON.parse(stored);
+    if (isValidActiveState(parsed)) {
+      return parsed;
+    }
+    return { ...DEFAULT_STATE, lastCheckTime: Date.now() };
   } catch {
     return { ...DEFAULT_STATE, lastCheckTime: Date.now() };
   }

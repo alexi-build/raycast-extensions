@@ -23,11 +23,12 @@ export async function processActiveState(): Promise<ActiveState> {
   const now = Date.now();
   const timeSinceLastCheck = Math.floor((now - state.lastCheckTime) / 1000); // Convert milliseconds to seconds
 
-  const activeTimeToAdd = timeSinceLastCheck;
+  // Subtract idle time from active time to avoid counting breaks under the threshold
+  const activeTimeToAdd = Math.max(0, timeSinceLastCheck - currentIdleSeconds);
   const previousMilestones = Math.floor(state.accumulatedActiveSeconds / activeIntervalSeconds);
 
   state.accumulatedActiveSeconds += activeTimeToAdd;
-  state.lastCheckTime = Date.now();
+  state.lastCheckTime = now;
   state.isIdle = false;
 
   const currentMilestones = Math.floor(state.accumulatedActiveSeconds / activeIntervalSeconds);

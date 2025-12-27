@@ -5,9 +5,7 @@ export function formatTime(seconds: number, includeSeconds = true): string {
   const secs = Math.floor(seconds % 60);
 
   if (hours > 0) return `${hours}h ${mins}m`;
-  if (includeSeconds) {
-    if (mins > 0) return `${mins}m ${secs}s`;
-    return `${secs}s`;
-  }
-  return `${mins}m`;
+  if (!includeSeconds) return `${mins}m`;
+  if (mins > 0) return `${mins}m ${secs}s`;
+  return `${secs}s`;
 }
