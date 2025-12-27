@@ -40,6 +40,26 @@ export async function saveActiveState(state: ActiveState): Promise<void> {
   await LocalStorage.setItem(STORAGE_KEYS.ACTIVE_STATE, JSON.stringify(state));
 }
 
+export async function resetSessionTimeOnly(): Promise<void> {
+  const currentState = await getActiveState();
+  const newState: ActiveState = {
+    ...currentState,
+    accumulatedActiveSeconds: 0,
+    lastCheckTime: Date.now(),
+  };
+  await saveActiveState(newState);
+}
+
+export async function resetStatsOnly(): Promise<void> {
+  const currentState = await getActiveState();
+  const newState: ActiveState = {
+    ...currentState,
+    sessionCount: 0,
+    lastCheckTime: Date.now(),
+  };
+  await saveActiveState(newState);
+}
+
 export async function resetActiveState(): Promise<void> {
   const newState: ActiveState = {
     ...DEFAULT_STATE,

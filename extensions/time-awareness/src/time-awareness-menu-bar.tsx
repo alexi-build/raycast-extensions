@@ -4,7 +4,7 @@ import { ICONS } from "./constants";
 import { processActiveState } from "./services/active-session";
 import { triggerIntervalCompleteNotification } from "./utils/notifications";
 import { getParsedPreferences } from "./utils/preferences";
-import { resetActiveState } from "./utils/storage";
+import { resetActiveState, resetSessionTimeOnly, resetStatsOnly } from "./utils/storage";
 import { formatTime } from "./utils/time";
 
 export default function Command() {
@@ -47,8 +47,24 @@ export default function Command() {
           onAction={revalidate}
         />
         <MenuBarExtra.Item
+          icon={Icon.Clock}
+          title="Reset Session Time"
+          onAction={async () => {
+            await resetSessionTimeOnly();
+            revalidate();
+          }}
+        />
+        <MenuBarExtra.Item
+          icon={Icon.Hashtag}
+          title="Reset Stats"
+          onAction={async () => {
+            await resetStatsOnly();
+            revalidate();
+          }}
+        />
+        <MenuBarExtra.Item
           icon={Icon.Trash}
-          title="Reset Session"
+          title="Reset All"
           shortcut={{ modifiers: ["cmd", "shift"], key: "r" }}
           onAction={async () => {
             await resetActiveState();
